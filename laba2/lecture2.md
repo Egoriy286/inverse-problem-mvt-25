@@ -1,51 +1,148 @@
-? $u(x,t), \quad v(t):\infty > v(t) > 0$
-<!-- $$\begin{align}  \end{align}$$ -->
-$$\begin{align} \dfrac{\partial u}{\partial t} = \dfrac{\partial^2 u}{\partial x^2} - v \dfrac{\partial u}{\partial x}, \qquad x \in (0, l), \quad t \in (0,\overline{t}] \end{align}$$
+## Обратная задача для уравнения переноса-диффузии
 
-$$\begin{align} u(0, t) = \mu_1(t) , \quad u(l,t) = \mu_2(t), \quad t \in (0, \overline{t}] \end{align}$$
+Найти функции $u(x,t)$ и $v(t)$, такие что
 
-$$\begin{align} u(x,0) = u_0(x) , \quad x \in [0, l] \end{align}$$
+$$
+\frac{\partial u}{\partial t}
+=
+\frac{\partial^2 u}{\partial x^2}
+- v(t)\frac{\partial u}{\partial x},
+\qquad
+x\in(0,l),\; t\in(0,\overline{t}],
+$$
 
-$$\begin{align} \int_{0}^{l} u(x,t)dx = \phi(t), t \in (0, \overline{t}]  \end{align}$$
+$$
+u(0,t)=\mu_1(t),\qquad u(l,t)=\mu_2(t),
+\qquad t\in(0,\overline{t}],
+$$
 
-$$\begin{align} y_{i}^{0} = u_0(x_i), \quad i = \overline{0, N} \end{align}$$
+$$
+u(x,0)=u_0(x),\qquad x\in[0,l],
+$$
 
+$$
+\int_0^l u(x,t)\,dx=\phi(t),
+\qquad t\in(0,\overline{t}],
+$$
 
-определение констант:
-$$r = \dfrac{2h^2}{\tau}, \quad c = 2 + r, \quad e = 2 -r, \quad g = vh$$
+$$
+v(t)>0.
+$$
 
-МКР апроксимация Кранка-Николсон (черновик):
+### Сетка и обозначения
 
-$$r (y_{i}^{j} - y_{i}^{j-1}) = \Big[(y_{i+1}^j-2y_i^j+y_{i-1}^j)+(y_{i+1}^{j-1}-2y_i^{j-1}+y_{i-1}^{j-1})\Big] \\ - g (y_{i+1}^{j} + y_{i+1} - y_{i-1}^{j} - y_{i-1}^{j} - y_{i-1}^{j}) \cdot(v_{i}^{j} + v_{i}^{j-1})$$
+$$
+x_i=ih,\; i=\overline{0,N},\qquad
+t_j=j\tau,\; j=\overline{0,J},
+$$
 
-будет квадрат при подставки (7) меняем апроксимацию
+$$
+h=\frac{l}{N},\qquad
+\tau=\frac{\overline{t}}{J},\qquad
+y_i^j\approx u(x_i,t_j),\qquad
+y_i^0=u_0(x_i).
+$$
 
-$$r (y_{i}^{j} - y_{i}^{j-1}) = \Big[(y_{i+1}^j-2y_i^j+y_{i-1}^j)+(y_{i+1}^{j-1}-2y_i^{j-1}+y_{i-1}^{j-1})\Big] \\ - v^j 2h\left(y^{j-1}-y_{i-1}^{j-1}\right)$$
+Вводим константы:
 
+$$
+r=\frac{2h^2}{\tau},\qquad
+c=2+r,\qquad
+e=2-r.
+$$
 
+### Разностная схема (прямая задача)
 
+Для $j=\overline{0,J-1}$, $i=\overline{1,N-1}$:
 
-$y_0^j = \mu_1^{j}$
+$$
+y_{i+1}^{j+1}-c\,y_i^{j+1}+y_{i-1}^{j+1}
+=
+-y_{i+1}^{j}+e\,y_i^{j}-y_{i-1}^{j}
++2h\,v^{j+1}\bigl(y_i^{j}-y_{i-1}^{j}\bigr),
+$$
 
-$y_N^{j} = \mu_2^{j}$
+$$
+y_0^{j+1}=\mu_1^{j+1},\qquad
+y_N^{j+1}=\mu_2^{j+1}.
+$$
 
-$$\begin{align} y_{i+1}^{j} - c y_{i}^{j} + y_{i-1}^{j} + y_{i+1}^{j-1} - e y_{i}^{j-1}  y_{i-1}^{j-1} - 2v^{j} h(y_i^{j-1} - y_{i-1}^{j-1})\end{align}$$
-проходимся $i=\overline{1, N-1}$
+### Линеаризация для обратной задачи
 
+Представление:
 
-переходим к обратной апроксимации
+$$
+y_i^{j+1}=z_i^{j+1}+v^{j+1}w_i^{j+1}.
+$$
 
-$$\begin{align} y_{i}^{j} = z_i + v^j \cdot w_i\end{align}$$
+Тогда получаем две трёхдиагональные задачи.
 
-$$\begin{align} z_0^{j} = \mu_1^j, \quad z_{i+1} - cz_i + z_{i-1} = - y_{i+1}^{j-1} + e y_i^{j-1} - y_{i-1}^{j-1} \end{align}$$
-$i = \overline{1, N-1}, \quad z_N = \mu_2^i$
+Для $z$:
 
-$$\begin{align} w_0^j = 0, \quad w_{i+1} - c w_i + w_{i-1} - 2h (y_i^{j-1} - y_{i-1}^{j-1}) = 0 \end{align}$$
-$i = \overline{1, N-1}, \quad w_N = \mu_2^j$
+$$
+z_{i+1}^{j+1}-c\,z_i^{j+1}+z_{i-1}^{j+1}
+=
+-y_{i+1}^{j}+e\,y_i^{j}-y_{i-1}^{j},
+\qquad i=\overline{1,N-1},
+$$
 
-$$\begin{align} \sum_{i=1}^{N} \dfrac{h}{2} (y_i + y_{i-1}) = \phi^{j} \to v_j = \dfrac{\phi^j - \sum_{i=1}^{N} \dfrac{h}{2} (z_i + z_{i-1}) }{\sum_{i=1}^{N} \dfrac{h}{2} (w_i + w_{i-1}) } \end{align}$$
+$$
+z_0^{j+1}=\mu_1^{j+1},\qquad
+z_N^{j+1}=\mu_2^{j+1}.
+$$
 
-правило
-$(5) \to (8,9) \to (10) \to (7)$
+Для $w$:
 
-Безношенко Сибирский журнал матмоделирования
+$$
+w_{i+1}^{j+1}-c\,w_i^{j+1}+w_{i-1}^{j+1}
+-2h\bigl(y_i^{j}-y_{i-1}^{j}\bigr)=0,
+\qquad i=\overline{1,N-1},
+$$
+
+$$
+w_0^{j+1}=0,\qquad
+w_N^{j+1}=0.
+$$
+
+### Восстановление $v^{j+1}$ из условия переопределения
+
+$$
+\phi^{j+1}
+=
+\sum_{i=1}^{N}\frac{h}{2}\left(y_i^{j+1}+y_{i-1}^{j+1}\right).
+$$
+
+Подставляя $y=z+v^{j+1}w$, получаем
+
+$$
+v^{j+1}
+=
+\frac{
+\phi^{j+1}
+-\sum_{i=1}^{N}\frac{h}{2}\left(z_i^{j+1}+z_{i-1}^{j+1}\right)
+}{
+\sum_{i=1}^{N}\frac{h}{2}\left(w_i^{j+1}+w_{i-1}^{j+1}\right)
+}.
+$$
+
+Если знаменатель близок к нулю, на практике берут $v^{j+1}=v^j$.
+
+### Оценка начального значения $v^0$
+
+$$
+\phi_t(0)=u_x(l,0)-u_x(0,0)-v^0\bigl(u(l,0)-u(0,0)\bigr),
+$$
+
+$$
+v^0=
+\frac{u_x(l,0)-u_x(0,0)-\phi_t(0)}
+{u(l,0)-u(0,0)}.
+$$
+
+### Последовательность шага по времени
+
+$$
+(z,w)\;\rightarrow\;v^{j+1}\;\rightarrow\;y^{j+1}.
+$$
+
+Источник: Безношенко, *Сибирский журнал вычислительной математики и математического моделирования*.
