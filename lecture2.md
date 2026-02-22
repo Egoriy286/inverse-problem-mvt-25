@@ -43,7 +43,7 @@ $i = \overline{1, N-1}, \quad z_N = \mu_2^i$
 $$\begin{align} w_0^j = 0, \quad w_{i+1} - c w_i + w_{i-1} - 2h (y_i^{j-1} - y_{i-1}^{j-1}) = 0 \end{align}$$
 $i = \overline{1, N-1}, \quad w_N = \mu_2^j$
 
-$$\begin{align} \sum_{i=1}^{N} \dfrac{h}{2} (y_i + y_{i-1}) = \phi^{j} \to v_j \dfrac{\phi^j - \sum_{i=1}^{N} \dfrac{h}{2} (z_i + z_{i-1}) }{\sum_{i=1}^{N} \dfrac{h}{2} (w_i + w_{i-1}) } \end{align}$$
+$$\begin{align} \sum_{i=1}^{N} \dfrac{h}{2} (y_i + y_{i-1}) = \phi^{j} \to v_j = \dfrac{\phi^j - \sum_{i=1}^{N} \dfrac{h}{2} (z_i + z_{i-1}) }{\sum_{i=1}^{N} \dfrac{h}{2} (w_i + w_{i-1}) } \end{align}$$
 
 правило
 $(5) \to (8,9) \to (10) \to (7)$
