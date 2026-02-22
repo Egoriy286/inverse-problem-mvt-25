@@ -42,8 +42,8 @@ def mu2(t_val):
     return 0.0
 
 
-def v_true(t_val):
-    return np.sin(t_val)
+def p_true(t_val):
+    return np.sin(t_val) + 1.0 #1.5 + 0.4 * np.sin(2.0 * np.pi * t_val)
 
 
 def thomas(lower, diag, upper, rhs):
@@ -70,14 +70,14 @@ def thomas(lower, diag, upper, rhs):
 # ==========================================================
 # 1) ПРЯМАЯ ЗАДАЧА: ГЕНЕРАЦИЯ phi(t)
 # ==========================================================
-p_ref = v_true(t)
-y_exact = np.zeros((N + 1, J + 1))
-y_exact[:, 0] = u0(x)
-y_exact[0, 0] = mu1(t[0])
-y_exact[N, 0] = mu2(t[0])
+p_ref = p_true(t)
+y_ref = np.zeros((N + 1, J + 1))
+y_ref[:, 0] = u0(x)
+y_ref[0, 0] = mu1(t[0])
+y_ref[N, 0] = mu2(t[0])
 
 for j in range(1, J + 1):
-    y_prev = y_exact[:, j - 1]
+    y_prev = y_ref[:, j - 1]
     p_prev = p_ref[j - 1]
     p_cur = p_ref[j]
 
@@ -99,26 +99,18 @@ for j in range(1, J + 1):
 
     y_inner = thomas(lower, diag, upper, rhs)
 
-    y_exact[0, j] = mu1(t[j])
-    y_exact[N, j] = mu2(t[j])
-    y_exact[1:N, j] = y_inner
+    y_ref[0, j] = mu1(t[j])
+    y_ref[N, j] = mu2(t[j])
+    y_ref[1:N, j] = y_inner
 
-phi = y_exact[n, :].copy()
+phi = y_ref[n, :].copy()
 
 # p(0) из условия переопределения:
 # phi'(0) = u_xx(x_bar, 0) + p(0) * u0(x_bar)
-u0_grid = u0(x)
-u0_xx_bar = (u0_grid[n + 1] - 2.0 * u0_grid[n] + u0_grid[n - 1]) / h**2
-if J >= 2:
-    phi_t0 = (-3.0 * phi[0] + 4.0 * phi[1] - phi[2]) / (2.0 * tau)
-else:
-    phi_t0 = (phi[1] - phi[0]) / tau
-
-if abs(u0_grid[n]) < eps:
-    raise ValueError("Невозможно определить p(0): u0(x_bar) близко к нулю")
-
-p0_est = (phi_t0 - u0_xx_bar) / u0_grid[n]
-print(f"estimated p(0) from phi(t): {p0_est:.6f}")
+u0_ = u0(x)
+u0_xx = (u0_[n + 1] - 2.0 * u0_[n] + u0_[n - 1]) / h**2
+phi_t0 = (-3.0 * phi[0] + 4.0 * phi[1] - phi[2]) / (2.0 * tau)
+p0_est = (phi_t0 - u0_xx) / u0_[n]
 
 
 # ==========================================================
@@ -127,10 +119,10 @@ print(f"estimated p(0) from phi(t): {p0_est:.6f}")
 y = np.zeros((N + 1, J + 1))
 p = np.zeros(J + 1)
 
-y[:, 0] = u0_grid
+y[:, 0] = u0_
 y[0, 0] = mu1(t[0])
 y[N, 0] = mu2(t[0])
-p[0] = 0#p0_est
+p[0] = p0_est
 for j in range(1, J + 1):
     y_prev = y[:, j - 1]
     p_prev = p[j - 1]
@@ -179,7 +171,7 @@ for j in range(1, J + 1):
 # ==========================================================
 misfit_phi = np.max(np.abs(y[n, :] - phi))
 err_p_max = np.max(np.abs(p - p_ref))
-err_u_max = np.max(np.abs(y - y_exact))
+err_u_max = np.max(np.abs(y - y_ref))
 
 print(f"max |y(x_bar,t) - phi(t)| = {misfit_phi:.3e}")
 print(f"max |p_rec(t) - p_true(t)| = {err_p_max:.3e}")
@@ -199,7 +191,7 @@ plt.grid(True, alpha=0.3)
 plt.legend()
 
 fig2 = plt.figure()
-plt.plot(x, y_exact[:, -1], "k--", lw=2, label="u_ref(x,T)")
+plt.plot(x, y_ref[:, -1], "k--", lw=2, label="u_ref(x,T)")
 plt.plot(x, y[:, -1], "b", lw=1.8, label="u_rec(x,T)")
 plt.title("Восстановление решения u(x,T)")
 plt.xlabel("x")
@@ -215,12 +207,11 @@ plt.ylabel("error")
 plt.grid(True, alpha=0.3)
 plt.legend()
 
-plt.show()
 # if "agg" in plt.get_backend().lower():
-#     fig1.savefig("p_recovery.png", dpi=150, bbox_inches="tight")
-#     fig2.savefig("u_recovery.png", dpi=150, bbox_inches="tight")
-#     fig3.savefig("error.png", dpi=150, bbox_inches="tight")
-#     print("Графики сохранены: p_recovery.png, u_recovery.png")
-# else:
-#     plt.show()
+fig1.savefig("p_recovery.png", dpi=150, bbox_inches="tight")
+fig2.savefig("u_recovery.png", dpi=150, bbox_inches="tight")
+fig3.savefig("error.png", dpi=150, bbox_inches="tight")
+print("Графики сохранены: p_recovery.png, u_recovery.png")
+
+plt.show()
     
