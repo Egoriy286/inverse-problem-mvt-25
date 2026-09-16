@@ -1,0 +1,1 @@
+$$\begin{algin} \dfrac{\partial u}{\partial t} = \dfrac{\partial }{} \end{align}$$

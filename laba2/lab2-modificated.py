@@ -1,5 +1,5 @@
 import numpy as np; import matplotlib.pyplot as plt;
-L=2*np.pi; T=0.5; J=100; N=100; mu1=0; mu2=0
+L=2*np.pi; T=1.0; J=100; N=100; mu1=0; mu2=0
 tau=T/J; h=L/N; r=2*h**2/tau; c=2+r; e=2-r
 u=np.zeros((J+1, N+1)); x=np.linspace(0, L, N+1); t=np.linspace(0, T, J+1)
 u[0,:]=np.sin(2*np.pi * x/L); v_e = np.sin(2*np.pi*t)*10; phi = np.zeros(J+1)
@@ -62,8 +62,20 @@ for j in range(J):
 # Визуализация решения
 p = plt.contourf(y); plt.colorbar(p); plt.title("Приближенное решение")
 plt.figure(); p = plt.contourf(u); plt.colorbar(p); plt.title("Точное решение")
-plt.figure()
-plt.plot(v_e, label='exact'); plt.plot(v, label='aprox'); plt.legend(); plt.title("v(t)="); plt.grid()
-plt.figure()
-plt.plot(abs(v-v_e)); plt.title("Погрешность восстановления v-v_e")
+plt.figure(); plt.plot(v_e, label='exact'); plt.plot(v, label='aprox'); plt.legend(); plt.title("v(t)="); plt.grid()
+plt.figure(); plt.plot(abs(v-v_e)); plt.title("Погрешность восстановления v-v_e")
+
+
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+fig, ax = plt.subplots(); line, = ax.plot([], [])
+ax.set(xlim=(0, L), ylim=(1.1*np.min(u), 1.1*np.max(u)))
+txt = ax.text(0.02, 0.9, '', transform=ax.transAxes)
+
+skip = max(1, J//50)
+
+FuncAnimation(fig, lambda f: (line.set_data(x, u[f*skip]) or txt.set_text(f"t={t[f*skip]:.2f}") or (line, txt)),
+              frames=J//skip, blit=True)\
+.save("laba2.gif", writer=PillowWriter(fps=20))
+
 plt.show()

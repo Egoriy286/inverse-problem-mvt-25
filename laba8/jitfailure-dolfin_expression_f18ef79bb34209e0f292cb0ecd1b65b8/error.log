@@ -1,0 +1,14 @@
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp: In member function ‘virtual void dolfin::dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp:63:36: error: ‘e’ was not declared in this scope
+   63 |           values[0] = sin(pi*x[0])*e**(-t);
+      |                                    ^
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp:63:38: error: invalid type argument of unary ‘*’ (have ‘double’)
+   63 |           values[0] = sin(pi*x[0])*e**(-t);
+      |                                      ^~~~~
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp: In member function ‘virtual double dolfin::dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8::get_property(std::string) const’:
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp:75:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   75 |           if (name == "pi") return pi;          if (name == "t") return t;
+      |           ^~
+/tmp/tmpja81dywi/dolfin_expression_f18ef79bb34209e0f292cb0ecd1b65b8.cpp:75:49: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   75 |           if (name == "pi") return pi;          if (name == "t") return t;
+      |                                                 ^~
