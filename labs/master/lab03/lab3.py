@@ -144,6 +144,6 @@ plt.savefig(OUTPUT_DIR / "inverse_problem_laba3.png",
             dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
 plt.show()
 
-print(f"‖p − p_rec‖_∞  = {np.max(np.abs(p_exact - p_rec)):.3e}")
-print(f"‖u − y‖_∞      = {np.max(np.abs(u - y)):.3e}")
-print(f"‖φ_u − φ_y‖_∞  = {np.max(np.abs(phi - phi_y)):.3e}")
+print(f"max|p - p_rec|  = {np.max(np.abs(p_exact - p_rec)):.3e}")
+print(f"max|u - y|      = {np.max(np.abs(u - y)):.3e}")
+print(f"max|phi_u - phi_y| = {np.max(np.abs(phi - phi_y)):.3e}")

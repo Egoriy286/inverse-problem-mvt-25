@@ -13,6 +13,7 @@
 | empty `practika.ipynb` | `archive/legacy/invalid-notebooks` | invalid historical notebook | move | Сохранить пустой исторический файл отдельно от проверяемых notebooks. |
 | `gif_to_png.py` | `scripts/gif_to_png.py` | utility | move/update | Утилита не относится к конкретной лаборатории. |
 | `jitfailure-*`, `__pycache__`, `*.pyc` | — | generated cache | delete | Воспроизводимые служебные файлы не являются исходными материалами. |
+| `src/inverse_problems.egg-info` | — | generated package metadata | delete | Метаданные пересоздаются при установке пакета и не являются исходным кодом. |
 | identical copies in `lab04`/`lab08` | — | duplicate | delete | Удалены только подтверждённые хешем дубликаты. |
 
 Git-индекс в среде разработки доступен только для чтения, поэтому физические
