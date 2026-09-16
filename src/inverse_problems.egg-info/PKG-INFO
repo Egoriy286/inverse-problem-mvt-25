@@ -1,3 +1,21 @@
+Metadata-Version: 2.4
+Name: inverse-problems
+Version: 0.1.0
+Summary: Numerical methods and experiments for inverse problems in mathematical physics
+Requires-Python: <3.14,>=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: ipykernel>=6.29
+Requires-Dist: jupyter>=1.0
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: numpy>=1.26
+Requires-Dist: pillow>=10.0
+Requires-Dist: scipy>=1.12
+Requires-Dist: tqdm>=4.66
+Provides-Extra: dev
+Requires-Dist: nbclient>=0.10; extra == "dev"
+Requires-Dist: nbformat>=5.10; extra == "dev"
+Requires-Dist: pytest>=8.0; extra == "dev"
+
 # Обратные задачи математической физики
 
 Репозиторий содержит учебные лабораторные и экспериментальный код для

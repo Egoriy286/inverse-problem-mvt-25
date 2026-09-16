@@ -1,4 +1,0 @@
-/tmp/tmp0uwvibhg/dolfin_expression_457e1f42cfda3a8ee4824c57995105ac.cpp: In member function ‘virtual void dolfin::dolfin_expression_457e1f42cfda3a8ee4824c57995105ac::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
-/tmp/tmp0uwvibhg/dolfin_expression_457e1f42cfda3a8ee4824c57995105ac.cpp:61:23: error: ‘beta’ was not declared in this scope
-   61 |           values[0] = beta*x[0]*x[1];
-      |                       ^~~~

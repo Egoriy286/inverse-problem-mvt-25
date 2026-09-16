@@ -1,4 +1,18 @@
-/обратные задачи
-/temp
-/__pycache__
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Jupyter and IDEs
+.ipynb_checkpoints/
+.idea/
+
+# Reproducible build/runtime artifacts
+out/
+**/jitfailure-*/
+results/generated/
+data/processed/generated/
+
+# Local tooling
 .qwen
